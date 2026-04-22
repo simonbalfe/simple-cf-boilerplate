@@ -1,0 +1,35 @@
+{
+  "name": "@repo/web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "vite build && wrangler deploy",
+    "cf-typegen": "wrangler types ../../worker-configuration.d.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/api": "workspace:*",
+    "@repo/auth": "workspace:*",
+    "@tanstack/react-router": "^1.168.10",
+    "@tanstack/react-start": "^1.167.16",
+    "better-auth": "^1.6.2",
+    "hono": "^4.10.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.31.2",
+    "@cloudflare/workers-types": "^4.20260409.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-tsconfig-paths": "^6.0.5",
+    "wrangler": "^4.81.1"
+  }
+}

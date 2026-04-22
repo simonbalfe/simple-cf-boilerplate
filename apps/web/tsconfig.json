@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "react-jsx",
+    "types": ["@cloudflare/workers-types", "vite/client"],
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "../../worker-configuration.d.ts"]
+}

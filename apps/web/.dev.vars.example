@@ -1,0 +1,3 @@
+# Local-only Worker vars. Copy to `.dev.vars` (gitignored) and fill in.
+DATABASE_URL="postgresql://user:password@ep-xxx.neon.tech/dbname?sslmode=require"
+BETTER_AUTH_SECRET="replace-with-openssl-rand-hex-32"

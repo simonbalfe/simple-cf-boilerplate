@@ -1,0 +1,13 @@
+node_modules
+dist
+.output
+.vinxi
+.wrangler
+.env
+.env.local
+.dev.vars
+**/routeTree.gen.ts
+**/worker-configuration.d.ts
+**/*.tsbuildinfo
+.DS_Store
+*.log

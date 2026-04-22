@@ -1,0 +1,20 @@
+{
+  "name": "@repo/auth",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/db": "workspace:*",
+    "better-auth": "^1.6.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260409.1",
+    "typescript": "^5.9.3"
+  }
+}

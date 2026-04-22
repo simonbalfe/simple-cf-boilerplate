@@ -1,0 +1,23 @@
+{
+  "name": "simple-cf-boilerplate",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter @repo/web dev",
+    "build": "pnpm --filter @repo/web build",
+    "deploy": "pnpm --filter @repo/web deploy",
+    "cf-typegen": "pnpm --filter @repo/web cf-typegen",
+    "db:generate": "pnpm --filter @repo/db db:generate",
+    "db:migrate": "pnpm --filter @repo/db db:migrate",
+    "db:push": "pnpm --filter @repo/db db:push",
+    "db:studio": "pnpm --filter @repo/db db:studio",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "type-check": "pnpm -r type-check"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "typescript": "^5.9.3"
+  },
+  "packageManager": "pnpm@9.15.0"
+}
