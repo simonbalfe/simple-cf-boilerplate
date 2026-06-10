@@ -1,13 +1,13 @@
 # Simple CF Boilerplate
 
-TanStack Start + Hono + Cloudflare Workers + Neon Postgres + Drizzle + Better Auth. Monorepo, single deployable Worker. No Stripe, no OAuth, no email — just email/password auth, a Hono API, and a shell.
+TanStack Start + oRPC + Cloudflare Workers + Neon Postgres + Drizzle + Better Auth. Monorepo, single deployable Worker. No Stripe, no OAuth, no email — just email/password auth, a typed oRPC API, and a shell.
 
 Mirrors [`app-boilerplate`](../app-boilerplate) structure, stripped and targeted at Cloudflare Workers.
 
 ## Stack
 
 - **Framework**: TanStack Start (React SSR) on Cloudflare Workers via `@cloudflare/vite-plugin`
-- **API**: Hono, mounted at `/api/*` via a TanStack catch-all
+- **API**: oRPC procedures mounted on Hono at `/api/rpc/*` via a TanStack catch-all; typed client + TanStack Query on the web
 - **Database**: Neon Postgres (HTTP driver) + Drizzle ORM
 - **Auth**: Better Auth (email/password only) with Drizzle adapter
 
@@ -15,7 +15,7 @@ Mirrors [`app-boilerplate`](../app-boilerplate) structure, stripped and targeted
 
 ```
 apps/
-  api/              @repo/api — Hono app (auth passthrough + requireAuth + /me)
+  api/              @repo/api — oRPC router on Hono (auth passthrough + me procedure)
   web/              @repo/web — TanStack Start shell, deploys to CF Workers
 packages/
   auth/             @repo/auth — createAuth() factory
@@ -61,25 +61,32 @@ pnpm dev
 
 Open http://localhost:3000.
 
-## Adding a Hono Route
+## Adding an oRPC Procedure
+
+Procedures live in `apps/api/src/orpc/router.ts`. Use `protectedProcedure` for authed calls (`context.session` is non-null) or `publicProcedure` otherwise. Validate inputs with Zod via `.input()`. Call `getDb()` / `createAuth()` inside the handler — never at module scope.
 
 ```ts
-// apps/api/src/routes/todos.ts
-import { Hono } from 'hono'
 import { getDb } from '@repo/db'
-import { requireAuth } from '../middleware/auth'
+import { protectedProcedure } from './base'
 
-export const todoRoutes = new Hono().get('/todos', requireAuth, async (c) => {
-  const rows = await getDb().query.user.findMany()
-  return c.json(rows)
-})
+export const router = {
+  me: protectedProcedure.handler(({ context }) => ({ user: context.session.user })),
+  users: protectedProcedure.handler(() => getDb().query.user.findMany()),
+}
+
+export type AppRouter = typeof router
 ```
 
-Wire it in `apps/api/src/app.ts`:
+On the web, it is instantly typed:
 
 ```ts
-.route('/', todoRoutes)
+import { client, orpc } from '~/lib/api'
+
+await client.users()
+const { data } = useQuery(orpc.users.queryOptions())
 ```
+
+Better Auth keeps its own Hono handler at `/api/auth/*`; the oRPC handler is mounted at `/api/rpc/*`.
 
 ## Deploy
 

@@ -12,12 +12,15 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@orpc/client": "^1.14.5",
+    "@orpc/server": "^1.14.5",
+    "@orpc/tanstack-query": "^1.14.5",
     "@repo/api": "workspace:*",
     "@repo/auth": "workspace:*",
+    "@tanstack/react-query": "^5.101.0",
     "@tanstack/react-router": "^1.168.10",
     "@tanstack/react-start": "^1.167.16",
     "better-auth": "^1.6.2",
-    "hono": "^4.10.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

@@ -1,7 +1,9 @@
 import { createAuth } from '@repo/auth'
+import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
+import { orpc } from '~/lib/api'
 import { signOut, useSession } from '~/lib/auth-client'
 
 const getServerSession = createServerFn({ method: 'GET' }).handler(async () => {
@@ -21,6 +23,7 @@ export const Route = createFileRoute('/dashboard')({
 function Dashboard() {
   const navigate = useNavigate()
   const { data: session } = useSession()
+  const { data: me } = useQuery(orpc.me.queryOptions())
 
   async function handleSignOut() {
     await signOut()
@@ -31,6 +34,7 @@ function Dashboard() {
     <div>
       <h1>Dashboard</h1>
       <p>Hello, {session?.user.name ?? session?.user.email}.</p>
+      <p>oRPC /me: {me?.user.email ?? 'loading...'}</p>
       <button type="button" onClick={handleSignOut}>
         Sign out
       </button>
